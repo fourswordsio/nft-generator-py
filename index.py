@@ -38,7 +38,7 @@ def generate_unique_images(amount, config):
       if key != "tokenId":
         attributes.append({"trait_type": key, "value": token[key]})
     token_metadata = {
-        "image": "./images/" + str(i).zfill(pad_amount) + '.png',
+        "image": "./images/" + str(i).zfill(pad_amount) + '.jpg',
         "tokenId": i,
         "name":  config["name"] + str(i).zfill(pad_amount),
         "attributes": attributes
@@ -54,16 +54,16 @@ def generate_unique_images(amount, config):
     for index, attr in enumerate(item):
       if attr != 'tokenId':
         layers.append([])
-        layers[index] = Image.open(f'{config["layers"][index]["trait_path"]}/{trait_files[attr][item[attr]]}.png').convert('RGBA')
+        layers[index] = Image.open(f'{config["layers"][index]["trait_path"]}/{trait_files[attr][item[attr]]}.jpg').convert('RGBA')
 
     if len(layers) == 1:
       rgb_im = layers[0].convert('RGB')
-      file_name = str(item["tokenId"]).zfill(pad_amount) + ".png"
+      file_name = str(item["tokenId"]).zfill(pad_amount) + ".jpg"
       rgb_im.save("./images/" + file_name)
     elif len(layers) == 2:
       main_composite = Image.alpha_composite(layers[0], layers[1])
       rgb_im = main_composite.convert('RGB')
-      file_name = str(item["tokenId"]) + ".png"
+      file_name = str(item["tokenId"]) + ".jpg"
       rgb_im.save("./images/" + file_name)
     elif len(layers) >= 3:
       main_composite = Image.alpha_composite(layers[0], layers[1])
@@ -72,16 +72,16 @@ def generate_unique_images(amount, config):
       for index, remaining in enumerate(layers):
         main_composite = Image.alpha_composite(main_composite, remaining)
       rgb_im = main_composite.convert('RGB')
-      file_name = str(item["tokenId"]) + ".png"
+      file_name = str(item["tokenId"]) + ".jpg"
       rgb_im.save("./images/" + file_name)
 
 generate_unique_images(5, {
   "layers": [
     {
       "name": "Background",
-      "values": ["Blue", "Orange", "Purple", "Red", "Yellow"],
+      "values": ["Platinum", "Gold", "Silver", "White", "Chameleon"],
       "trait_path": "./trait-layers/backgrounds",
-      "filename": ["blue", "orange", "purple", "red", "yellow"],
+      "filename": ["platinum", "gold", "silver", "white", "chameleon"],
       "weights": [30, 45, 15, 5, 10]
     },
     {
@@ -93,7 +93,7 @@ generate_unique_images(5, {
     },
     {
       "name": "Branding",
-      "values": ["A Name"],
+      "values": ["POBA"],
       "trait_path": "./trait-layers/text",
       "filename": ["text"],
       "weights": [100]
